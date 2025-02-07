@@ -29,18 +29,8 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             cd /home/nearbybasket/htdocs/nearbybasket.com/nearbybasket-web-next-js  # Navigate to your project directory
-            git pull origin main  # Pull the latest changes from the 'main' branch
+            ls -la
           EOF
 
-  # Job 3: Check PM2 status on the remote server
-  pm2_status:
-    runs-on: ubuntu-latest
-    needs: git_pull  # This job depends on the 'git_pull' job to run first
-
-    steps:
-      - name: Check PM2 status
-        run: |
-          ssh -o StrictHostKeyChecking=no  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            pm2 status  # Check the PM2 process status
-          EOF
+ 
 
