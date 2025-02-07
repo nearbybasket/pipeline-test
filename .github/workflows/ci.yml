@@ -1,36 +1,23 @@
-name: Deploy Application on Remote Server
-
+name: Run Shell Script on Remote Server
 on:
   push:
     branches:
-      - main  # Trigger on push to the main branch
-
+      - main  # Trigger the action on push to the main branch
 jobs:
-  # Job 1: Set up SSH key and checkout code
-  setup:
-    runs-on: ubuntu-latest
-
+  deploy:
+    runs-on: ubuntu-latest  # You can change this based on your OS requirement
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up SSH key
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-  # Job 2: Git pull to update the repository on the remote server
-  git_pull:
-    runs-on: ubuntu-latest
-    needs: setup  # This job depends on the 'setup' job to run first
-
-    steps:
-      - name: Pull latest code from the remote repository
-        run: |
-          ssh -o StrictHostKeyChecking=no nearbybasket@194.164.149.25 << 'EOF'
-            cd /home/nearbybasket/htdocs/nearbybasket.com/nearbybasket-web-next-js  # Navigate to your project directory
-            ls -la
-          EOF
-
- 
-
+    # Step 1: Check out the code
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    # Step 2: Set up SSH key using the GitHub secret
+    - name: Set up SSH key
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Ensure the key is stored in GitHub secrets
+    # Step 3: Run shell script on the remote server
+    - name: Run script on remote server
+      run: |
+        ssh -o StrictHostKeyChecking=no -T nearbybasket@194.164.149.25 << 'EOF'
+          ls -la
+        EOF
