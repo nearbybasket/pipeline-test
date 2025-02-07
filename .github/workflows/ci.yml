@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Pull latest code from the remote repository
         run: |
-          ssh -o -T StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          ssh -v -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             cd /home/nearbybasket/htdocs/nearbybasket.com/nearbybasket-web-next-js  # Navigate to your project directory
             ls -la
           EOF
