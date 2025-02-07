@@ -39,6 +39,6 @@ jobs:
     - name: Run script on remote server
       run: |
         ssh -o StrictHostKeyChecking=no -T nearbybasket@194.164.149.25 << 'EOF'
-          pm2 status
+        pm2 status
         EOF
 
